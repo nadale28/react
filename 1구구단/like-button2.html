@@ -1,0 +1,51 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+<!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+<script type="text/babel">
+    'use strict';
+
+    // 컴포넌트는 반드시 대문자
+    // 반드시 부모자식 관계. 동일한 태그가 두개 같이 있으면 안된다.
+    class LikeButton extends React.Component {
+        /*constructor(props) {
+            super(props);
+            this.state = {liked: false};
+        }*/
+
+        // constructor를 안쓰는 형태로 발전했다.
+        // 하지만 class라 this 를 써야하는 문제가 존재
+        state = {liked: false};
+
+        onClickButton = () => {
+            this.setState({liked: true});
+        }
+        render() {
+            if (this.state.liked) {
+                return 'You liked this.';
+            }
+
+            return (
+                // 객체를 함부로 바꾸지 마라. this.state.liked=true -> this.setState({liked: true})
+                /*<button onClick={() => this.setState({liked: true})}>
+                    Like
+                </button>*/
+                <button onClick={this.onClickButton}>
+                    Like
+                </button>
+            );
+        }
+    }
+</script>
+<script type="text/babel">
+    //react17 ReactDOM.render(<LikeButton/>, document.querySelector('#root'));
+    ReactDOM.createRoot(document.querySelector('#root')).render(<LikeButton />);
+</script>
+</body>
+</html>

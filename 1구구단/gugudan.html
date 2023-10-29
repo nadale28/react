@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            'use strict';
+            console.log('render 밖');
+            class GuGuDan extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        first: Math.ceil(Math.random()*9),
+                        second: Math.ceil(Math.random()*9),
+                        value: '',
+                        result: '',
+                    };
+                }
+
+
+
+                /*
+                만약 그냥 함수를 쓴다?
+                function onSubmit() {
+                    this.setState()
+                }
+                그럼 this가 달라져 버리기 때문에 정상작동하지 않는다.
+                */
+
+                onSubmit = (e) => {
+                    e.preventDefault();
+                    if(parseInt(this.state.value) === this.state.first * this.state.second) {
+                        // prevState 를 활용하는 예제
+                        this.setState((prevState) => {
+                            return {
+                                result: '정답'+prevState.value,
+                                first: Math.ceil(Math.random()*9),
+                                second: Math.ceil(Math.random()*9),
+                                value: '',
+                            }
+                        });
+                        this.input.focus();
+                        /*
+                        만약 아래와 같은 예제가 있다고 하자
+                        그럼 그냥 value가 3이 증가하겠구나 싶다.
+                        근데 그냥 1만 증가한다. 그 이유는 나중에...
+                        일단은 setState안에서 this.state 를 쓸일이 있으면. prevState를 쓰는걸로
+                        this.setState({
+                            value: this.state.value + 1,
+                        });
+                        this.setState({
+                            value: this.state.value + 1,
+                        });
+                        this.setState({
+                            value: this.state.value + 1,
+                        });
+
+                        */
+                    }else{
+                        this.setState({
+                            result: '땡',
+                            value: '',
+                        });
+                    }
+                }
+
+                input;
+
+                // 렌더링 될 때마다 함수가 계속 생성되기 때문에... onSubmit같이 함수는 밖으로 빼주는게 좋다.
+                render() {
+                    console.log('render 안');
+                    return (
+                        <div>
+                            <div>
+                                {this.state.first} 곱하기 {this.state.second} 는?
+                            </div>
+                            <form onSubmit={this.onSubmit}>
+                                <input ref={(c)=>{this.input = c;}} type="number" value={this.state.value} onChange={(e)=>{this.setState({value: e.target.value})}}/>
+                                <button>입력</button>
+                            </form>
+                            <div>{this.state.result}</div>
+                        </div>
+                    );
+                }
+
+                /* onChange={(e)=>{this.setState({value: e.target.value})}} 불변성... value의 값만 바뀌며 기존 값들은 유지된다.*/
+            }
+
+            ReactDOM.createRoot(document.querySelector('#root')).render(<GuGuDan />);
+        </script>
+    </body>
+</html>
