@@ -1,4 +1,7 @@
 
+** 인증서 설정 **
+npm config set cafile D:\dev\jdk1.8.0_111\bin\somansa.cer
+
 ** webpack, babel 설정 **
 
 npm init
