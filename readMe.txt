@@ -142,6 +142,31 @@ onClick = {onClickBtn(1)}
 useState로 처리하기에 너무 복잡해지는 경우 사용하는 것 같다.
 
 
+npm i react-router react-router-dom
+
+import {BrowserRouter, HashRouter} from 'react-router-dom';
+
+<BrowserRouter>
+    <Route path="/number-baseball" component={NumberBaseball}></Route>
+    <Route path="/rock-scissors-paper" component={RSP}></Route>
+</BrowserRouter>
+
+눈속임으로 만들어낸 링크기 때문에... a태그 같은거로 하면 에러가 난다.
+<Link href="/number-baseball"></>
+
+props전달할때는 render={(props)=>GameMatcher {...props}/>}
+
+이제 버전 router 6로 버전업되었다.
+<Routes>
+    <Route></Route>
+</Routes>
+
+동적 path
+path="/game/:name"
+ 꺼내오기 : this.props.match.params.name
+
+
+
 
 
 
