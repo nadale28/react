@@ -165,8 +165,22 @@ props전달할때는 render={(props)=>GameMatcher {...props}/>}
 path="/game/:name"
  꺼내오기 : this.props.match.params.name
 
+ㅇ redux
+npm -i redux
 
+react-redux의 Provider로 감싸주기
+<Provider store={store}></Provider>
 
+const user = useSelector((state)=>state.user.data);
+const dispatch = useDispatch();
 
+dispatch(logIn({
+    id: 'inhwan',
+    password: 'zzzz'
+}));
+
+redux-devtools 설치...
+확장프로그램에 설치하고
+npm으로 프로젝트에도 설치해줘야함
 
 
