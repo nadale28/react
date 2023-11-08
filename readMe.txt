@@ -183,4 +183,46 @@ redux-devtools 설치...
 확장프로그램에 설치하고
 npm으로 프로젝트에도 설치해줘야함
 
+npm i -d redux-devtools-extension
+
+compose부분을 composeWithDevTools로 대체하면 사용간으
+
+ㅇ process.env.NODE_ENV === 'production'
+이게 개발환경인지 운영환경인지 구분할때 쓰는거라는데
+유용할 것 같다.
+
+ㅇ immer
+return {
+    ...prevState,
+    data: null
+}
+불변성을 지키기 위해 너무 번거롭다.
+
+const produce = require('immer');
+
+return produce(prevState, (draft) => {
+    switch(action.type) {
+        case 'LOG_IN_REQUEST':
+            draft.data = null;
+            break;
+    }
+});
+
+
+ㅇ redux-toolkit
+Thunk, immer 이런거 안써도 된다고 한다.
+saga도 필요없다고 하네
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,0 +1,83 @@
+const {configureStore, getDefaultMiddleware} = require('@reduxjs/toolkit');
+
+initialState 필요없음.
+thunk 필요없음.
+enhancer 필요없음.
+
+const store = configureStore({
+    reducer,
+    middleware: [firstMiddleware],
+    // middleware: [firstMiddleware, ...getDefaultMiddleware()] // customMiddleware를 사용하고 싶다면...
+    devTools: process.env.NODE_ENV !== 'production',
+    // enhancer // 쓰고싶다면...
+});
+
+reducer 사용 변경점
+action은 보통 reducer에 속해있다.
+
+const {createSlice} = require('@reduxjs/toolkit');
+
+const initialState = {}
+
+const userSlice = createSlice({
+    name: 'pose',
+    initialState,
+    reducer: { // 동기, postReducer 내부에 있는것(더이상 action.js에 만들지 않아도 된다.)
+        logOut(state, action) {
+            state.data = null;
+        }
+    },
+    extraReducers: { // 비동기, postReducer 외부에 있는것 (action.js에 내가 만들어준것)
+        [login.pending](state, action){
+            state.isLoggingIn = true;
+            // return {} // 이런식으로 하면 state를 바꿔버릴수있다. 불변성 끊겼을때...
+        },
+        [login.fulfilled](state, action) {
+            state.data = action.payload;
+            state.isLoggingIn = false;
+        },
+        [login.rejects]() {
+            state.data = null;
+            state.isLoggingIn = false;
+        }
+    },
+
+    ㅇ extraReducer builder 사용방식
+    extraReducer: () => builder
+    .addCase(addPost.pending, (state, action) => {
+
+    })
+    .addCase(addPost.fulfilled, (state, action) => {
+
+    })
+    .addMatcher((action)=>{ // 공통으로 처리할 때 유용. 예를 들어 로딩처리
+        return action.type.includes('/pending');
+    }, (state) => {
+        state.isLoading = true;
+    })
+});
+
+ㅇ 비동기의 경우에는 action을 여전히 만들어 줘야한다.
+const {createAsyncThunk} = require('@reduxjs/toolkit');
+
+const login = createAsyncThunk('user/login', async(data, thunkAPI)=>{
+    //const state = thunkAPI.getState();
+    //pending, fulfilled, rejected
+    const result = await delay(500, {
+        userId: 1,
+        nickname: 'inhwan',
+    });
+    return result;
+});
+
+ㅇ input onChange에 redux 사용
+쓸데없이 action이 많이 일어난다.
+굳이 사용하지말고 꼭 서야한다면 onBlur 같이 다 쳤을 때 하도록
+
+const {email, password} = useSelector
+이렇게 구조분해하면 쓸데없는 리랜더링이 많이 일어난다
+
+
+
+
+
